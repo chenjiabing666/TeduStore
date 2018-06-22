@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <!-- namespace指定的接口的全类名 -->
+ <mapper namespace="cn.tedu.store.mapper.GoodsCategoryMapper">
+ 	  
+ 	  <!-- 
+ 	  	List<GoodsCategory> selectGoodsCategoryBYParentId(@Param("parentId")Integer parentId,@Param("offest")Integer offest,@Param("count")Integer count);
+ 	  	根据parentId查询出商品分类
+ 	   -->
+ 	   <select id="selectGoodsCategoryBYParentId" resultType="cn.tedu.store.bean.GoodsCategory">
+ 	   		select 
+ 	   			id,parent_id as parentId,
+ 	   			name,status,
+ 	   			sort_order as sortOrder,is_parent as isParent,
+ 	   			created_time as createdTime,created_user as createdUser,
+ 	   			modified_time as modifiedTime,modified_user as modifiedUser
+ 	   		from t_goods_category 
+ 	   		where parent_id=#{parentId}
+ 	   		<if test="offest!=null">
+ 	   			limit #{offest},#{count}
+ 	   		</if>
+ 	   		
+ 	   </select>
+ 	   
+ 	   <!-- 
+ 	   		List<GoodsCategory> selectGoodCategoryById(Integer id);
+ 	    -->
+ 	    <select id="selectGoodCategoryById" resultType="cn.tedu.store.bean.GoodsCategory">
+ 	    	select 
+ 	   			parent_id as parentId,
+ 	   			name,status,
+ 	   			sort_order as sortOrder,is_parent as isParent,
+ 	   			created_time as createdTime,created_user as createdUser,
+ 	   			modified_time as modifiedTime,modified_user as modifiedUser
+ 	   		from t_goods_category 
+ 	   		where id=#{id}
+ 	    </select>
+ 	  
+ </mapper>

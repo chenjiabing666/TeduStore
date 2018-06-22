@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <!-- namespace指定的接口的全类名 -->
+ <mapper namespace="cn.tedu.store.mapper.CartMapper">
+ 	<!-- 
+ 		void insertCart(Cart cart);
+ 		添加购物车
+ 	 -->
+ 	 <insert id="insertCart" parameterType="cn.tedu.store.bean.Cart">
+ 	 	insert into t_cart(goods_id,uid,num,created_user,created_time,modified_user,modified_time)values(
+ 	 		#{goodsId},#{uid},#{num},#{createdUser},#{createdTime},#{modifiedUser},#{modifiedTime}
+ 	 	)
+ 	 </insert>
+ 
+ 
+ 	<!-- 
+ 		List<CartVo> selectCartByUid(Integer uid);
+ 	 -->
+ 	 <select id="selectCartByUid" resultType="cn.tedu.store.bean.CartVo">
+ 	 		select 
+ 	 		c.id as id,
+ 	 		c.uid as uid,
+ 	 		goods_id as goodsId,
+ 	 		image,
+ 	 		title,
+ 	 		c.num as num,
+ 	 		price
+ 	 		from t_cart c,t_goods g
+ 	 		where c.uid=#{uid} and c.goods_id=g.id
+ 	 </select>
+ 	 
+ 	 <!-- 
+ 	 	void deleteCartById(Integer[] ids);
+ 	 	批量删除
+ 	  -->
+ 	  <delete id="deleteCartById" parameterType="java.lang.Integer">
+ 	  		delete from t_cart 
+ 	  		where
+ 	  		id in
+ 	  		<!-- 
+ 	  			遍历数组ids
+ 	  			collection:需要遍历的数组
+ 	  			item: 数组中的每一个值
+ 	  			open ： 开始的内容
+ 	  			close: 结束的内容
+ 	  			separator ：每个元素的分割符
+ 	  			最后拼接的就是  (id,id,id,id,id)
+ 	  		 -->
+ 	  		<foreach collection="ids" item="id" open="(" separator="," close=")">
+ 	  			#{id}
+ 	  		</foreach> 
+ 	  </delete>
+ 	  
+ 	  
+ 	  <!-- 
+ 	  	void deleteCartByIdProcdure(Integer id);
+ 	  	使用存储过程删除
+ 	   -->
+ 	   
+ 	   	<delete id="deleteCartByIdProcdure">
+ 	   		{call deleteCart(#{id})}
+ 	   	</delete>
+ 	   	
+ 	   	<!-- 
+ 	   		void updateNum(@Param("id")Integer id,@Param("num")Integer num);
+ 	   		修改数量
+ 	   	 -->
+ 	   	 <update id="updateNum">
+ 	   	 	{call updateNum(#{id},#{num})}
+ 	   	 </update>
+ 	   	 
+ 	  
+ </mapper>

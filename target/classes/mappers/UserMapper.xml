@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ 
+ <!-- namespace指定的UserMapper接口的全类名 -->
+ <mapper namespace="cn.tedu.store.mapper.UserMapper">
+ 
+ <!-- 
+ 		对应的方法： void insertUser(User user);
+ 		功能 ： 添加用户信息
+ 		返回值： 默认返回的是受影响的行数，不需要写返回类型，除非是select语句一定要写返回类型resultType或者resultMap
+ 		id ： 是UserMapper.java接口中的方法名称
+ 		parameterType ： 参数类型，写的是全类名。这里如果是基本类型，比如String,Integer可以不用写，如果是实体类对象最好是写上
+  -->
+ <insert id="insertUser" parameterType="cn.tedu.store.bean.User">
+ 	insert into t_user(username,password,email,phone,image,gender,created_user,created_time,modified_user,modified_time)
+ 	values(#{username},#{password},#{email},#{phone},#{image},#{gender},#{createdUser},#{createdTime},#{modifiedUser},#{modifiedTime})
+ </insert>
+ 
+ 
+ <!-- 
+ 	User selectUserByUserName(String username);
+ 	根据用户名查询用户信息，如果存在返回对象，否则返回null
+ 	resultType：返回值类型
+ 	如果表中的字段和实体类中的字段不相同，那么需要指定别名，否则不能成功赋值
+  -->
+  <select id="selectUserByUserName" resultType="cn.tedu.store.bean.User">
+  	select id,username,password,email,gender,image,
+  	phone,created_user as createdUser,
+  	created_time as createdTime,
+  	modified_user as modifiedUser,
+  	modified_time as modifiedTime
+  	from t_user where username=#{username}
+  </select>
+  
+  
+  <!-- 
+  	Integer selectByEmail(String email);
+  	功能： 通过邮箱查找
+  	resultType : 返回的是Integer类型的，需要写全类名，在select语句中必须定义返回值类型
+   -->
+  <select id="selectByEmail" resultType="java.lang.Integer">
+  	select count(*) from t_user where email=#{email}
+  </select>
+  
+  <!-- 
+  	Integer selectByPhone(String phone);
+  	功能： 通过电话号码查询，返回的是人数
+   -->
+   <select id="selectByPhone" resultType="java.lang.Integer">
+   		select count(*) from t_user where phone=#{phone}
+   </select>
+   
+
+<!-- 
+   	void update(User user);
+   	修改用户信息
+    -->
+    
+<update id="update" parameterType="cn.tedu.store.bean.User">
+   	update t_user set
+   	<if test="username!=null">
+   		username=#{username},
+   	</if>
+   	
+   	<if test="password!=null">
+   		password=#{password},
+   	</if>
+   	
+   	<if test="email!=null">
+   		email=#{email},
+   	</if>
+   	
+   	<if test="phone!=null">
+   		phone=#{phone},
+   	</if>
+   	
+   	<if test="image!=null">
+   		image=#{image},
+   	</if>
+   	
+   	<if test="gender!=null">
+   		gender=#{gender},
+   	</if>
+   	
+   	modified_user=#{modifiedUser},
+   	modified_time=#{modifiedTime}
+	where id=#{id}
+</update>
+   
+<!-- 
+   	User seletUserById(Integer id);
+   	根据id查询用户信息
+ -->   
+<select id="seletUserById" resultType="cn.tedu.store.bean.User">
+	select id,username,password,email,gender,image,
+  	phone,created_user as createdUser,
+  	created_time as createdTime,
+  	modified_user as modifiedUser,
+  	modified_time as modifiedTime
+  	from t_user where id=#{id}
+</select>
+
+<!-- 
+	void updateImage(@Param("id")Integer id,@Param("image")String image);
+ -->
+ <update id="updateImage">
+ 	update t_user set image=#{image} where id=#{id}
+ </update>
+ 
+ 
+ </mapper>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <!-- namespace指定的DictMapper接口的全类名 -->
+ <mapper namespace="cn.tedu.store.mapper.AddressMapper">
+ 	<!-- 
+ 		void insertAddress(Address address);
+ 		插入地址
+ 	 -->
+ 	 <insert id="insertAddress" parameterType="cn.tedu.store.bean.Address">
+ 	 	insert into t_address(uid,recv_name,
+ 	 	recv_province,recv_city,
+ 	 	recv_area,recv_district,
+ 	 	recv_address,
+ 	 	recv_phone,recv_tel,
+ 	 	recv_zip,recv_tag,
+ 	 	is_default,created_user,
+ 	 	created_time,modified_user,modified_time) 
+ 	 	values(#{uid},#{recvName},#{recvProvince},#{recvCity},
+ 	 		   #{recvArea},#{recvDistrict},#{recvAddress},#{recvPhone},
+ 	 		   #{recvTel},#{recvZip},#{recvTag},#{isDefault},
+ 	 		   #{createdUser},#{createdTime},#{modifiedUser},#{modifiedTime}
+ 	 	)
+ 	 </insert>
+ 	 
+ 	 
+ 	 <!-- 
+ 	 	List<Address> selectAddressByUid(Integer uid);
+ 	 	根据用户id查询所有的地址信息
+ 	  -->
+ 	 <select id="selectAddressByUid" resultType="cn.tedu.store.bean.Address">
+ 	 	select id,recv_name recvName,
+ 	 		   recv_province recvProvince,recv_city recvCity,
+ 	 		   recv_area recvArea,recv_district recvDistrict,
+ 	 		   recv_address recvAddress,recv_phone recvPhone,
+ 	 		   recv_tel recvTel,recv_zip recvZip,
+ 	 		   recv_tag recvTag,is_default isDefault,
+ 	 		   created_user createdUser,created_time createdTime,
+ 	 		   modified_user modifiedUser,modified_time modifiedTime
+ 	 	from t_address where uid=#{uid}
+ 	 </select>
+ 	 
+ 	 <!-- 
+ 	 	Integer setCancel(Integer uid);
+ 	 	设置当前用户的所有is_default的值为0
+ 	  -->
+ 	 <update id="setCancel">
+ 	 	update t_address set is_default=0 where uid=#{uid}
+ 	 </update>
+ 	 
+ 	 <!-- 
+ 	 	Integer setDefault(Integer id);
+ 	 	设置当前id的地址为默认地址，设置is_default=1
+ 	  -->
+ 	  <update id="setDefault">
+ 	  	update t_address set is_default=1 where id=#{id}
+ 	  </update>
+ 	 
+ 	 
+ 	 <!-- 
+ 	 	Address selectAddressById(Integer id);
+ 	 	根据id获取地址信息
+ 	  -->
+ 	  <select id="selectAddressById" resultType="cn.tedu.store.bean.Address">
+ 	  		select uid,recv_name recvName,
+ 	 		   recv_province recvProvince,recv_city recvCity,
+ 	 		   recv_area recvArea,recv_district recvDistrict,
+ 	 		   recv_address recvAddress,recv_phone recvPhone,
+ 	 		   recv_tel recvTel,recv_zip recvZip,
+ 	 		   recv_tag recvTag,is_default isDefault,
+ 	 		   created_user createdUser,created_time createdTime,
+ 	 		   modified_user modifiedUser,modified_time modifiedTime
+ 	 	from t_address where id=#{id}
+ 	  </select>
+ 	 
+ 	 
+ 	 <!-- 
+ 	 	void updateAddressById(Address address);
+ 	 	根据id修改地址信息
+ 	  -->
+ 	  <update id="updateAddressById" parameterType="cn.tedu.store.bean.Address">
+ 	  		update t_address 
+ 	  		set
+ 	  		recv_name=#{recvName} ,
+ 	  		recv_province=#{recvProvince},
+ 	  		recv_city=#{recvCity},
+ 	  		recv_area=#{recvArea},
+ 	  		recv_district=#{recvDistrict},
+ 	  		recv_address=#{recvAddress},
+ 	  		recv_phone=#{recvPhone},
+ 	  		recv_tel=#{recvTel},
+ 	  		recv_tag=#{recvTag},
+ 	  		recv_zip=#{recvZip}
+ 	  		where id=#{id}
+ 	  </update>
+ 	 
+ 	 
+ 	 <!-- 
+ 	 	Integer deleteAddressById(Integer id);
+ 	 	根据id删除需要地址
+ 	  -->
+ 	  <delete id="deleteAddressById">
+ 	  		delete from t_address where id=#{id}
+ 	  </delete>
+ 	 
+ 	 
+ 	 
+ 	 
+ 	 
+ 	 
+ 	 
+ </mapper>

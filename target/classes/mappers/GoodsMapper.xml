@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <!-- namespace指定的接口的全类名 -->
+ <mapper namespace="cn.tedu.store.mapper.GoodsMapper">
+ 	
+ 	<!-- 
+ 		List<Goods> selectGoodsByCategoryId(@Param("categoryId")Integer categoryId,@Param("offest")Integer offest,@Param("count")Integer count);
+ 		 根据分类的id查询出商品信息
+ 	 -->
+ 	 <select id="selectGoodsByCategoryId" resultType="cn.tedu.store.bean.Goods">
+ 	 	select 
+ 	 		id,category_id as categoryId,
+ 	 		item_type as itemType,title,
+ 	 		sell_point as sellPoint,price,
+ 	 		num,barcode as barCode,
+ 	 		image,status,
+ 	 		priority,
+ 	 		created_time as createdTime,created_user as createdUser,
+ 	   		modified_time as modifiedTime,modified_user as modifiedUser
+ 	 	from t_goods 
+ 	 	where category_id=#{categoryId}
+ 	 			and status=1 and num>0
+ 	 	order by priority desc
+ 	 	<if test="offest!=null">
+ 	 		limit #{offest},#{count}
+ 	 	</if>
+ 	 	
+ 	 </select>
+ 	 
+ 	 <!-- 
+ 	 	Integer selectCountByCategoryId(Integer categoryId);
+ 	 	查询一共多少条数据
+ 	  -->
+ 	  <select id="selectCountByCategoryId" resultType="java.lang.Integer">
+ 	  	select count(*) from t_goods where category_id=#{categoryId}
+ 	  </select>
+ 	  
+ 	  <!-- 
+ 	  	Goods selectGoodsById(Integer id);
+ 	   -->
+ 	   <select id="selectGoodsById" resultType="cn.tedu.store.bean.Goods">
+ 	   		select 
+	 	 		id,category_id as categoryId,
+	 	 		item_type as itemType,title,
+	 	 		sell_point as sellPoint,price,
+	 	 		num,barcode as barCode,
+	 	 		image,status,
+	 	 		priority,
+	 	 		created_time as createdTime,created_user as createdUser,
+	 	   		modified_time as modifiedTime,modified_user as modifiedUser
+ 	 	from t_goods 
+ 	 	where id=#{id}
+ 	   </select>
+ 	
+ </mapper>

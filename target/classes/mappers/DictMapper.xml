@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <!-- namespace指定的DictMapper接口的全类名 -->
+ <mapper namespace="cn.tedu.store.mapper.DictMapper">
+ 	<!-- 
+ 		List<Province> selectProvince();
+ 		查询所有的省份
+ 	 -->
+ 	<select id="selectProvince" resultType="cn.tedu.store.bean.Province">
+ 		select id,
+ 		province_code as provinceCode,
+ 		province_name as provinceName 
+ 		from t_dict_provinces
+ 	</select>
+ 	
+ 	<!-- 
+ 		List<City> selectCityByProvinceCode(String provinceCode);
+ 		根据省份的编码查询所有的城市信息
+ 	 -->
+ 	 <select id="selectCityByProvinceCode" resultType="cn.tedu.store.bean.City">
+ 	 	select id,
+ 	 	province_code as provinceCode,
+ 	 	city_code as cityCode,
+ 	 	city_name as cityName
+ 	 	from t_dict_cities where province_code=#{province_code}
+ 	 </select>
+ 	 
+ 	 
+ 	 <!-- 
+ 	 	List<Area> selectAreaByCityCode(String cityCode);
+ 	 	根据城市的编码查询所有的县区
+ 	  -->
+ 	  <select id="selectAreaByCityCode" resultType="cn.tedu.store.bean.Area">
+ 	  	select id,
+ 	  	area_code as areaCode,
+ 	  	area_name as areaName,
+ 	  	city_code as cityCode
+ 	  	from t_dict_areas where city_code=#{cityCode}
+ 	  </select>
+ 	  
+ 	  
+ 	  <!-- String selectProvinceNameByCode(String proviceCode);
+ 	  		根据省份编号查询省份的名称
+ 	   -->
+ 	   <select id="selectProvinceNameByCode" resultType="java.lang.String">
+ 	   	select province_name from t_dict_provinces where province_code=#{proviceCode}
+ 	   </select>
+ 	   
+ 	   
+ 	   <!-- String selectCityNameByCode(String cityCode);
+ 	  		根据城市的编号查询城市的名称
+ 	   -->
+ 	   <select id="selectCityNameByCode" resultType="java.lang.String">
+ 	   	select city_name from t_dict_cities where city_code=#{cityCode}
+ 	   </select>
+ 	   
+ 	   
+ 	  <!-- 	String selectAreaNameByCode(String areaCode);
+ 	  		根据区县编号查询区县的名称 
+ 	   -->
+ 	   <select id="selectAreaNameByCode" resultType="java.lang.String">
+ 	   	select area_name from t_dict_areas where area_code=#{areaCode}
+ 	   </select>
+ 	  
+ </mapper>
